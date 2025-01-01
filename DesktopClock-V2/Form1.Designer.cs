@@ -36,6 +36,7 @@
             壁紙変更CToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
             Strip_Close = new ToolStripMenuItem();
+            testToolStripMenuItem = new ToolStripMenuItem();
             openFileDialog1 = new OpenFileDialog();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
@@ -72,28 +73,35 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, toolStripMenuItem1, Strip_Close });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, toolStripMenuItem1, Strip_Close, testToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(138, 54);
+            contextMenuStrip1.Size = new Size(181, 98);
             // 
             // 壁紙変更CToolStripMenuItem
             // 
             壁紙変更CToolStripMenuItem.Name = "壁紙変更CToolStripMenuItem";
-            壁紙変更CToolStripMenuItem.Size = new Size(137, 22);
+            壁紙変更CToolStripMenuItem.Size = new Size(180, 22);
             壁紙変更CToolStripMenuItem.Text = "壁紙変更(&C)";
             壁紙変更CToolStripMenuItem.Click += 壁紙変更CToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(134, 6);
+            toolStripMenuItem1.Size = new Size(177, 6);
             // 
             // Strip_Close
             // 
             Strip_Close.Name = "Strip_Close";
-            Strip_Close.Size = new Size(137, 22);
+            Strip_Close.Size = new Size(180, 22);
             Strip_Close.Text = "終了";
             Strip_Close.Click += Strip_Close_Click;
+            // 
+            // testToolStripMenuItem
+            // 
+            testToolStripMenuItem.Name = "testToolStripMenuItem";
+            testToolStripMenuItem.Size = new Size(180, 22);
+            testToolStripMenuItem.Text = "test";
+            testToolStripMenuItem.Click += testToolStripMenuItem_Click;
             // 
             // openFileDialog1
             // 
@@ -135,5 +143,6 @@
         private ToolStripSeparator toolStripMenuItem1;
         private ToolStripMenuItem Strip_Close;
         private OpenFileDialog openFileDialog1;
+        private ToolStripMenuItem testToolStripMenuItem;
     }
 }

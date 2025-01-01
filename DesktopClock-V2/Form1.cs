@@ -1,13 +1,26 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DesktopClock_V2
 {
+
+
+
     public partial class Form1 : Form
     {
+
+#if DEBUG
+        private readonly bool isDebug = true;
+#else
+        private readonly bool isDebug = false;
+#endif
+
         public Form1()
         {
             InitializeComponent();
         }
+
 
 
 
@@ -36,13 +49,14 @@ namespace DesktopClock_V2
         private void 壁紙変更CToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //9:16の縦横比の写真しか行けないデメリットはあるけど、とりあえずはできる
+
             var ofd = new OpenFileDialog();
             ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
 
 
             if (ofd.ShowDialog() == DialogResult.OK)
-            
-            {  
+
+            {
                 string FilePath = ofd.FileName;
                 try
                 {
@@ -58,7 +72,7 @@ namespace DesktopClock_V2
                     }
                     else
                     {
-                        MessageBox.Show("壁紙を変更できませんでした。\n 画像ファイルの縦横比が9:16ではありません。","Error", MessageBoxButtons.OK , MessageBoxIcon.Error);
+                        MessageBox.Show("壁紙を変更できませんでした。\n 画像ファイルの縦横比が9:16ではありません。", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
@@ -66,7 +80,34 @@ namespace DesktopClock_V2
                     MessageBox.Show($"画像の読み込み中にエラーが発生しました: {ex.Message}");
                 }
 
-                
+
+            }
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isDebug)
+            {
+                var ofd = new OpenFileDialog();
+                ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
+                if (ofd.ShowDialog() == DialogResult.OK)
+
+                {
+                    string FilePath = ofd.FileName;
+                    try
+                    {
+                        Image SelectedImage = Image.FromFile(FilePath);
+                        string filePath = ofd.FileName;
+
+                        this.BackgroundImage = SelectedImage;
+                        this.BackgroundImageLayout = ImageLayout.Zoom;
+                        MessageBox.Show("壁紙を変更しました");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"画像の読み込み中にエラーが発生しました: {ex.Message}");
+                    }
+                }
             }
         }
     }
