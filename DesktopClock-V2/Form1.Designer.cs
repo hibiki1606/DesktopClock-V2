@@ -34,10 +34,12 @@
             datetxt = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             壁紙変更CToolStripMenuItem = new ToolStripMenuItem();
+            ChangeWP_crop = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
             Strip_Close = new ToolStripMenuItem();
             testToolStripMenuItem = new ToolStripMenuItem();
             openFileDialog1 = new OpenFileDialog();
+            dev1 = new Label();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -73,39 +75,57 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, toolStripMenuItem1, Strip_Close, testToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, ChangeWP_crop, toolStripMenuItem1, Strip_Close, testToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 98);
+            contextMenuStrip1.Size = new Size(183, 120);
             // 
             // 壁紙変更CToolStripMenuItem
             // 
             壁紙変更CToolStripMenuItem.Name = "壁紙変更CToolStripMenuItem";
-            壁紙変更CToolStripMenuItem.Size = new Size(180, 22);
-            壁紙変更CToolStripMenuItem.Text = "壁紙変更(&C)";
+            壁紙変更CToolStripMenuItem.Size = new Size(182, 22);
+            壁紙変更CToolStripMenuItem.Text = "壁紙変更(ノーマル)(&N)";
             壁紙変更CToolStripMenuItem.Click += 壁紙変更CToolStripMenuItem_Click;
+            // 
+            // ChangeWP_crop
+            // 
+            ChangeWP_crop.Name = "ChangeWP_crop";
+            ChangeWP_crop.Size = new Size(182, 22);
+            ChangeWP_crop.Text = "壁紙変更(クロップ)(&C)";
+            ChangeWP_crop.Click += ChangeWP_crop_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(177, 6);
+            toolStripMenuItem1.Size = new Size(179, 6);
             // 
             // Strip_Close
             // 
             Strip_Close.Name = "Strip_Close";
-            Strip_Close.Size = new Size(180, 22);
+            Strip_Close.Size = new Size(182, 22);
             Strip_Close.Text = "終了";
             Strip_Close.Click += Strip_Close_Click;
             // 
             // testToolStripMenuItem
             // 
             testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(180, 22);
+            testToolStripMenuItem.Size = new Size(182, 22);
             testToolStripMenuItem.Text = "test";
             testToolStripMenuItem.Click += testToolStripMenuItem_Click;
             // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // dev1
+            // 
+            dev1.AutoSize = true;
+            dev1.ForeColor = SystemColors.ButtonFace;
+            dev1.Location = new Point(12, 9);
+            dev1.Name = "dev1";
+            dev1.Size = new Size(38, 15);
+            dev1.TabIndex = 2;
+            dev1.Text = "label1";
+            dev1.Visible = false;
             // 
             // Form1
             // 
@@ -115,6 +135,7 @@
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(287, 510);
             ContextMenuStrip = contextMenuStrip1;
+            Controls.Add(dev1);
             Controls.Add(datetxt);
             Controls.Add(timetxt);
             DoubleBuffered = true;
@@ -144,5 +165,7 @@
         private ToolStripMenuItem Strip_Close;
         private OpenFileDialog openFileDialog1;
         private ToolStripMenuItem testToolStripMenuItem;
+        private Label dev1;
+        private ToolStripMenuItem ChangeWP_crop;
     }
 }
