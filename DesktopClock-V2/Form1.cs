@@ -1,11 +1,12 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace DesktopClock_V2
 {
 
-
+    
 
     public partial class Form1 : Form
     {
@@ -15,24 +16,18 @@ namespace DesktopClock_V2
 #else
         private readonly bool isDebug = false;
 #endif
+        string SysLang = System.Globalization.CultureInfo.CurrentCulture.Name;
+        string PCN = Environment.MachineName;
 
+        string chlang = "ja";
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void apdatetime()
-        {
-            DateTime dt = DateTime.Now;
-            // timetxt.Text = (dt.Hour.ToString() + ":" + dt.Minute.ToString());
-            timetxt.Text = dt.ToString("HH:mm");
-            datetxt.Text = (dt.ToString("M") + " (" + dt.ToString("ddd") + ")");
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            string PCN = Environment.MachineName;
+            
             dev1.Text = PCN;
 
             apdatetime();
@@ -53,8 +48,57 @@ namespace DesktopClock_V2
                     dev1.Visible = true;
                     this.Text = this.Text + " -DEBUG";
                 }
+
+
+                if (SysLang != "ja-JP")
+                {
+                    chlang = "en";
+                }
+                LangChange();
+
+            }
+
+        }
+        private void apdatetime()
+        {
+            DateTime dt = DateTime.Now;
+            // timetxt.Text = (dt.Hour.ToString() + ":" + dt.Minute.ToString());
+            timetxt.Text = dt.ToString("HH:mm");
+            
+
+            if (SysLang == "ja-JP")
+            {
+                datetxt.Text = (dt.ToString("M") + " (" + dt.ToString("ddd") + ")");
+            }
+            else
+            {
+                datetxt.Text = (dt.ToString("dddd") + ", " + dt.ToString("M"));
+            }
+            
+           // datetxt.Text = (dt.ToString("") + " (" + dt.ToString("ddd") + ")");
+
+        }
+        private void LangChange()
+        {
+            if (chlang == "ja")
+            {
+                ChangeWP_crop.Text = "壁紙変更 (&C)";
+                Strip_Close.Text = "終了";
+                ChangeLangsw.Text = "言語変更";
+                ChangeE.Checked = false;
+                ChangeJ.Checked = true;
+            }
+            else
+            {
+                ChangeWP_crop.Text = "Change Wallpaper (&C)";
+                Strip_Close.Text = "Close";
+                ChangeLangsw.Text = "Change Language";
+                ChangeE.Checked = true;
+                ChangeJ.Checked = false;
             }
         }
+
+        
         private void uptime_Tick(object sender, EventArgs e)
         {
             apdatetime();
@@ -70,7 +114,7 @@ namespace DesktopClock_V2
 
         private void 壁紙変更CToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //9:16の縦横比の写真しか行けないデメリットはあるけど、とりあえずはできる
+            //dont use
 
             var ofd = new OpenFileDialog();
             ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
@@ -108,6 +152,7 @@ namespace DesktopClock_V2
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //test 
             if (isDebug)
             {
                 var ofd = new OpenFileDialog();
@@ -174,7 +219,7 @@ namespace DesktopClock_V2
 
         private void ChangeWP_crop_Click(object sender, EventArgs e)
         {
-            //Crop
+            //Change Wallpaper (Crop)
 
             var ofd = new OpenFileDialog();
             ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
@@ -208,6 +253,24 @@ namespace DesktopClock_V2
                 {
                     MessageBox.Show($"画像の読み込み中にエラーが発生しました: {ex.Message}");
                 }
+            }
+        }
+
+        private void ChangeJ_Click(object sender, EventArgs e)
+        {
+            if (chlang == "en")
+            {
+                chlang = "ja";
+                LangChange();
+            }
+        }
+
+        private void ChangeE_Click(object sender, EventArgs e)
+        {
+            if (chlang == "ja")
+            {
+                chlang = "en";
+                LangChange();
             }
         }
     }
