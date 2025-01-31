@@ -63,9 +63,9 @@ namespace DesktopClock_V2.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap タイトルなし {
+        internal static System.Drawing.Bitmap _default {
             get {
-                object obj = ResourceManager.GetObject("タイトルなし", resourceCulture);
+                object obj = ResourceManager.GetObject("default", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

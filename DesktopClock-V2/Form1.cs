@@ -6,7 +6,7 @@ using System.Text;
 namespace DesktopClock_V2
 {
 
-    
+
 
     public partial class Form1 : Form
     {
@@ -16,6 +16,9 @@ namespace DesktopClock_V2
 #else
         private readonly bool isDebug = false;
 #endif
+
+        bool ikamode = false;
+
         string SysLang = System.Globalization.CultureInfo.CurrentCulture.Name;
         string PCN = Environment.MachineName;
 
@@ -27,22 +30,15 @@ namespace DesktopClock_V2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
             dev1.Text = PCN;
 
             apdatetime();
             if (PCN.Contains("IKA004"))
             {
-                try
-                {
-                    string ikapicpath = "C:\\Users\\ika004\\Pictures\\GEKIKAWANENECHANWALLPAPERFORIKACLOCK.png";
-                    Image iimage = Image.FromFile(ikapicpath);
-                    this.BackgroundImage = iimage;
-                }
-                catch (FileNotFoundException)
-                {
-
-                }
+                ikamode = true;
+                toggleIka004modeToolStripMenuItem.Visible = true;
+                
                 if (isDebug)
                 {
                     dev1.Visible = true;
@@ -55,16 +51,45 @@ namespace DesktopClock_V2
                     chlang = "en";
                 }
                 LangChange();
-
+                changewp();
             }
 
         }
+
+
+        private void changewp()
+        {
+            if(ikamode)
+            {
+                try
+                {
+                    string ikapicpath = "C:\\Users\\ika004\\Pictures\\GEKIKAWANENECHANWALLPAPERFORIKACLOCK.png";
+                    Image iimage = Image.FromFile(ikapicpath);
+                    this.BackgroundImage = iimage;
+                }
+                catch (FileNotFoundException)
+                {
+
+                }
+            }
+            else
+            {
+                // idk to change to default wallpaper
+                /*
+                string ikapicpath = "Properties.Resources._default";
+                 Image iimage = Image.FromFile(ikapicpath);
+                 this.BackgroundImage = iimage;
+                */
+            }
+        }
+
         private void apdatetime()
         {
             DateTime dt = DateTime.Now;
+           // DateTime dt = DateTime.Parse("2025/02/01  00:47:00");
             // timetxt.Text = (dt.Hour.ToString() + ":" + dt.Minute.ToString());
             timetxt.Text = dt.ToString("HH:mm");
-            
+
 
             if (SysLang == "ja-JP")
             {
@@ -74,8 +99,8 @@ namespace DesktopClock_V2
             {
                 datetxt.Text = (dt.ToString("dddd") + ", " + dt.ToString("M"));
             }
-            
-           // datetxt.Text = (dt.ToString("") + " (" + dt.ToString("ddd") + ")");
+
+            // datetxt.Text = (dt.ToString("") + " (" + dt.ToString("ddd") + ")");
 
         }
         private void LangChange()
@@ -98,7 +123,7 @@ namespace DesktopClock_V2
             }
         }
 
-        
+
         private void uptime_Tick(object sender, EventArgs e)
         {
             apdatetime();
@@ -272,6 +297,19 @@ namespace DesktopClock_V2
                 chlang = "en";
                 LangChange();
             }
+        }
+
+        private void toggleIka004modeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(toggleIka004modeToolStripMenuItem.Checked == true)
+            {
+                ikamode = false;
+            }
+            else
+            {
+                ikamode = true;
+            }
+            changewp();
         }
     }
 }

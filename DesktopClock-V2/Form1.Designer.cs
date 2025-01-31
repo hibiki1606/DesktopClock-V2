@@ -41,6 +41,7 @@
             toolStripMenuItem1 = new ToolStripSeparator();
             Strip_Close = new ToolStripMenuItem();
             testToolStripMenuItem = new ToolStripMenuItem();
+            toggleIka004modeToolStripMenuItem = new ToolStripMenuItem();
             openFileDialog1 = new OpenFileDialog();
             dev1 = new Label();
             contextMenuStrip1.SuspendLayout();
@@ -53,9 +54,9 @@
             timetxt.ForeColor = SystemColors.ControlLightLight;
             timetxt.Location = new Point(2, 351);
             timetxt.Name = "timetxt";
-            timetxt.Size = new Size(176, 81);
+            timetxt.Size = new Size(273, 129);
             timetxt.TabIndex = 0;
-            timetxt.Text = "00:00";
+            timetxt.Text = "00:40";
             // 
             // uptime
             // 
@@ -77,9 +78,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, ChangeWP_crop, ChangeLangsw, toolStripMenuItem1, Strip_Close, testToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, ChangeWP_crop, ChangeLangsw, toolStripMenuItem1, Strip_Close, testToolStripMenuItem, toggleIka004modeToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(201, 120);
+            contextMenuStrip1.Size = new Size(201, 142);
             // 
             // 壁紙変更CToolStripMenuItem
             // 
@@ -108,14 +109,14 @@
             ChangeJ.Checked = true;
             ChangeJ.CheckState = CheckState.Checked;
             ChangeJ.Name = "ChangeJ";
-            ChangeJ.Size = new Size(180, 22);
+            ChangeJ.Size = new Size(112, 22);
             ChangeJ.Text = "日本語";
             ChangeJ.Click += ChangeJ_Click;
             // 
             // ChangeE
             // 
             ChangeE.Name = "ChangeE";
-            ChangeE.Size = new Size(180, 22);
+            ChangeE.Size = new Size(112, 22);
             ChangeE.Text = "English";
             ChangeE.Click += ChangeE_Click;
             // 
@@ -138,6 +139,16 @@
             testToolStripMenuItem.Text = "test";
             testToolStripMenuItem.Click += testToolStripMenuItem_Click;
             // 
+            // toggleIka004modeToolStripMenuItem
+            // 
+            toggleIka004modeToolStripMenuItem.Checked = true;
+            toggleIka004modeToolStripMenuItem.CheckState = CheckState.Checked;
+            toggleIka004modeToolStripMenuItem.Name = "toggleIka004modeToolStripMenuItem";
+            toggleIka004modeToolStripMenuItem.Size = new Size(200, 22);
+            toggleIka004modeToolStripMenuItem.Text = "toggle ika004mode";
+            toggleIka004modeToolStripMenuItem.Visible = false;
+            toggleIka004modeToolStripMenuItem.Click += toggleIka004modeToolStripMenuItem_Click;
+            // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
@@ -158,7 +169,7 @@
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = SystemColors.Desktop;
-            BackgroundImage = Properties.Resources.タイトルなし;
+            BackgroundImage = Properties.Resources._default;
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(287, 510);
             ContextMenuStrip = contextMenuStrip1;
@@ -197,5 +208,6 @@
         private ToolStripMenuItem ChangeLangsw;
         private ToolStripMenuItem ChangeJ;
         private ToolStripMenuItem ChangeE;
+        private ToolStripMenuItem toggleIka004modeToolStripMenuItem;
     }
 }
