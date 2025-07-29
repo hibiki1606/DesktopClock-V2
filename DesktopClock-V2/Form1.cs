@@ -2,7 +2,9 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-
+using System.IO;
+using System.ComponentModel;
+using System.Security.Cryptography;
 namespace DesktopClock_V2
 {
 
@@ -19,6 +21,11 @@ namespace DesktopClock_V2
 
         bool ikamode = false;
 
+        private readonly string posFP;
+        private readonly string picFP;
+        string SFPath;
+        bool isikamode;
+
         string SysLang = System.Globalization.CultureInfo.CurrentCulture.Name;
         string PCN = Environment.MachineName;
 
@@ -26,19 +33,22 @@ namespace DesktopClock_V2
         public Form1()
         {
             InitializeComponent();
+            posFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPOS.txt");
+            picFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPIC.txt");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
 
             dev1.Text = PCN;
 
             apdatetime();
             if (PCN.Contains("IKA004"))
             {
-                ikamode = true;
+               ikamode = true;
                 toggleIka004modeToolStripMenuItem.Visible = true;
-                
+
                 if (isDebug)
                 {
                     dev1.Visible = true;
@@ -52,6 +62,8 @@ namespace DesktopClock_V2
                 }
                 LangChange();
                 changewp();
+                LFpos();
+                LFpic();
             }
 
         }
@@ -59,7 +71,7 @@ namespace DesktopClock_V2
 
         private void changewp()
         {
-            if(ikamode)
+            if (ikamode && isikamode == false)
             {
                 try
                 {
@@ -86,7 +98,7 @@ namespace DesktopClock_V2
         private void apdatetime()
         {
             DateTime dt = DateTime.Now;
-           // DateTime dt = DateTime.Parse("2025/02/01  00:47:00");
+            // DateTime dt = DateTime.Parse("2025/02/01  00:47:00");
             // timetxt.Text = (dt.Hour.ToString() + ":" + dt.Minute.ToString());
             timetxt.Text = dt.ToString("HH:mm");
 
@@ -177,7 +189,7 @@ namespace DesktopClock_V2
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //test 
+            
             if (isDebug)
             {
                 var ofd = new OpenFileDialog();
@@ -272,6 +284,22 @@ namespace DesktopClock_V2
                         MessageBox.Show("壁紙をクロップして変更しました");
                     }
 
+                    //save picture path
+
+                    bool uwagaki = false;
+
+                    if (ikamode == true)
+                    {
+                        DialogResult result = MessageBox.Show("現在、ika004 モードで起動しています。起動時にこの画像を読み込みますか？","確認",MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
+
+                        if (result == DialogResult.No)
+                        {
+                            uwagaki = true;
+                        }
+                    }
+                    
+                    File.WriteAllText(picFP, $"{filePath},{uwagaki}");
+
 
                 }
                 catch (Exception ex)
@@ -301,7 +329,7 @@ namespace DesktopClock_V2
 
         private void toggleIka004modeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(toggleIka004modeToolStripMenuItem.Checked == true)
+            if (toggleIka004modeToolStripMenuItem.Checked == true)
             {
                 ikamode = false;
             }
@@ -310,6 +338,105 @@ namespace DesktopClock_V2
                 ikamode = true;
             }
             changewp();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SFpos();
+        }
+
+        private void SFpos()
+        {
+            try
+            {
+                string x = this.Location.X.ToString();
+                string y = this.Location.Y.ToString();
+
+                File.WriteAllText(posFP, $"{x},{y}");
+            }
+            catch (Exception)
+            {
+                //保存中にエラー
+            }
+
+        }
+
+        private void LFpos()
+        {
+            if (File.Exists(posFP))
+            {
+                try
+                {
+                    string[] pos = File.ReadAllText(posFP).Split(",");
+
+                    if (pos.Length == 2)
+                    {
+                        if (int.TryParse(pos[0], out int x) && int.TryParse(pos[1], out int y))
+                        {
+                            this.Location = new Point(x, y);
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        private void LFpic()
+        {
+            try
+            {
+                string[] images = File.ReadAllText(picFP).Split(",");
+
+
+                if (images.Length == 2 && bool.TryParse(images[1], out isikamode))
+                {
+                    SFPath = images[0];
+                }
+
+                //ここから頭悪い
+                if (isikamode == false)
+                {
+                    try
+                    {
+                        Image SelectedImage = Image.FromFile(SFPath);
+                        string filePath = SFPath;
+
+                        float aspe = 9f / 16f;
+                        float imgaspe = (float)SelectedImage.Width / SelectedImage.Height;
+                        if (Math.Abs(imgaspe - aspe) < 0.01f)
+                        {
+                            this.BackgroundImage = SelectedImage;
+                            this.BackgroundImageLayout = ImageLayout.Zoom;
+                            //    MessageBox.Show("壁紙を変更しました");
+                        }
+                        else
+                        {
+                            Image CropIMG = Crop(SelectedImage);
+                            this.BackgroundImage = CropIMG;
+                            //  MessageBox.Show("壁紙をクロップして変更しました");
+                        }
+                    }
+                    catch
+
+                    { }
+                }
+            }
+            catch
+            {
+
+            }
+            
         }
     }
 }

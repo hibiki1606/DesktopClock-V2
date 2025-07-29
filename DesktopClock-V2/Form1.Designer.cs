@@ -185,7 +185,8 @@
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Desktop Clock V2.2";
+            Text = "Desktop Clock V2.3";
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
