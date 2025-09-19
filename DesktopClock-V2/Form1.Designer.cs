@@ -134,9 +134,11 @@
             // 
             // testToolStripMenuItem
             // 
+            testToolStripMenuItem.Enabled = false;
             testToolStripMenuItem.Name = "testToolStripMenuItem";
             testToolStripMenuItem.Size = new Size(200, 22);
             testToolStripMenuItem.Text = "test";
+            testToolStripMenuItem.Visible = false;
             testToolStripMenuItem.Click += testToolStripMenuItem_Click;
             // 
             // toggleIka004modeToolStripMenuItem
@@ -183,9 +185,8 @@
             MinimumSize = new Size(303, 549);
             Name = "Form1";
             ShowIcon = false;
-            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Desktop Clock V2.3";
+            Text = "Desktop Clock V2.31";
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             contextMenuStrip1.ResumeLayout(false);

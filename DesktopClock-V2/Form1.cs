@@ -62,9 +62,10 @@ namespace DesktopClock_V2
                 }
                 LangChange();
                 changewp();
-                LFpos();
-                LFpic();
+                
             }
+            LFpos();
+            LFpic();
 
         }
 
