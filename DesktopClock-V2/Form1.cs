@@ -150,43 +150,7 @@ namespace DesktopClock_V2
 
 
 
-        private void 壁紙変更CToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //dont use
 
-            var ofd = new OpenFileDialog();
-            ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
-
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-
-            {
-                string FilePath = ofd.FileName;
-                try
-                {
-                    Image SelectedImage = Image.FromFile(FilePath);
-                    string filePath = ofd.FileName;
-                    float aspe = 9f / 16f;
-                    float imgaspe = (float)SelectedImage.Width / SelectedImage.Height;
-                    if (Math.Abs(imgaspe - aspe) < 0.01f)
-                    {
-                        this.BackgroundImage = SelectedImage;
-                        this.BackgroundImageLayout = ImageLayout.Zoom;
-                        MessageBox.Show("壁紙を変更しました");
-                    }
-                    else
-                    {
-                        MessageBox.Show("壁紙を変更できませんでした。\n 画像ファイルの縦横比が9:16ではありません。\n クロップ機能をお試しください。", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"画像の読み込み中にエラーが発生しました: {ex.Message}");
-                }
-
-
-            }
-        }
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {

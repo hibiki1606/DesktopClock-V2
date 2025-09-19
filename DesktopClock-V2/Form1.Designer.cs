@@ -33,7 +33,6 @@
             uptime = new System.Windows.Forms.Timer(components);
             datetxt = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            壁紙変更CToolStripMenuItem = new ToolStripMenuItem();
             ChangeWP_crop = new ToolStripMenuItem();
             ChangeLangsw = new ToolStripMenuItem();
             ChangeJ = new ToolStripMenuItem();
@@ -78,17 +77,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { 壁紙変更CToolStripMenuItem, ChangeWP_crop, ChangeLangsw, toolStripMenuItem1, Strip_Close, testToolStripMenuItem, toggleIka004modeToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ChangeWP_crop, ChangeLangsw, toolStripMenuItem1, Strip_Close, testToolStripMenuItem, toggleIka004modeToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(201, 142);
-            // 
-            // 壁紙変更CToolStripMenuItem
-            // 
-            壁紙変更CToolStripMenuItem.Name = "壁紙変更CToolStripMenuItem";
-            壁紙変更CToolStripMenuItem.Size = new Size(200, 22);
-            壁紙変更CToolStripMenuItem.Text = "壁紙変更(クロップなし)(&N)";
-            壁紙変更CToolStripMenuItem.Visible = false;
-            壁紙変更CToolStripMenuItem.Click += 壁紙変更CToolStripMenuItem_Click;
+            contextMenuStrip1.Size = new Size(181, 142);
             // 
             // ChangeWP_crop
             // 
@@ -200,7 +191,6 @@
         private System.Windows.Forms.Timer uptime;
         private Label datetxt;
         private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem 壁紙変更CToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
         private ToolStripMenuItem Strip_Close;
         private OpenFileDialog openFileDialog1;
