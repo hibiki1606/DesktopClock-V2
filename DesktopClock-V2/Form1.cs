@@ -23,46 +23,45 @@ namespace DesktopClock_V2
         string SFPath;
         bool isikamode;
 
-        string SysLang = System.Globalization.CultureInfo.CurrentCulture.Name;
-        string PCN = Environment.MachineName;
+        private readonly string _systemLocale = System.Globalization.CultureInfo.CurrentCulture.Name;
+        private readonly string _machineName = Environment.MachineName;
 
         string chlang = "ja";
 
         public Form1()
         {
             InitializeComponent();
+
             posFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPOS.txt");
             picFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPIC.txt");
+
+            dev1.Text = _machineName;
+            dev1.Visible = isDebug;
+
+            if (isDebug)
+                this.Text = this.Text + " -DEBUG";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            dev1.Text = PCN;
-
-            apdatetime();
-            if (PCN.Contains("IKA004"))
+            updateTime();
+            if (_machineName.Contains("IKA004"))
             {
                 ikamode = true;
                 toggleIka004modeToolStripMenuItem.Visible = true;
 
-                dev1.Visible = isDebug;
-
-                if (isDebug)
-                    this.Text = this.Text + " -DEBUG";
-
-                if (SysLang != "ja-JP")
+                if (_systemLocale != "ja-JP")
                 {
                     chlang = "en";
                 }
-                LangChange();
-                changewp();
-
+                langChange();
+                changeWallpaper();
             }
             LFpos();
             LFpic();
         }
 
-        private void changewp()
+        private void changeWallpaper()
         {
             if (ikamode && isikamode == false)
             {
@@ -88,27 +87,20 @@ namespace DesktopClock_V2
             }
         }
 
-        private void apdatetime()
+        private void updateTime()
         {
-            DateTime dt = DateTime.Now;
+            DateTime dateTime = DateTime.Now;
             // DateTime dt = DateTime.Parse("2025/02/01  00:47:00");
             // timetxt.Text = (dt.Hour.ToString() + ":" + dt.Minute.ToString());
-            timetxt.Text = dt.ToString("HH:mm");
+            timetxt.Text = dateTime.ToString("HH:mm");
 
-
-            if (SysLang == "ja-JP")
-            {
-                datetxt.Text = (dt.ToString("M") + " (" + dt.ToString("ddd") + ")");
-            }
-            else
-            {
-                datetxt.Text = (dt.ToString("dddd") + ", " + dt.ToString("M"));
-            }
+            // JP : EN
+            datetxt.Text = (_systemLocale == "ja-JP") ? $"{dateTime:M} ({dateTime:ddd})" : $"{dateTime:dddd}, {dateTime:M}";
 
             // datetxt.Text = (dt.ToString("") + " (" + dt.ToString("ddd") + ")");
 
         }
-        private void LangChange()
+        private void langChange()
         {
             if (chlang == "ja")
             {
@@ -130,7 +122,7 @@ namespace DesktopClock_V2
 
         private void uptime_Tick(object sender, EventArgs e)
         {
-            apdatetime();
+            updateTime();
         }
 
         private void Strip_Close_Click(object sender, EventArgs e) => this.Close();
@@ -258,7 +250,7 @@ namespace DesktopClock_V2
             if (chlang == "en")
             {
                 chlang = "ja";
-                LangChange();
+                langChange();
             }
         }
 
@@ -267,7 +259,7 @@ namespace DesktopClock_V2
             if (chlang == "ja")
             {
                 chlang = "en";
-                LangChange();
+                langChange();
             }
         }
 
@@ -275,7 +267,7 @@ namespace DesktopClock_V2
         {
             toggleIka004modeToolStripMenuItem.Checked = !ikamode;
 
-            changewp();
+            changeWallpaper();
         }
 
 
