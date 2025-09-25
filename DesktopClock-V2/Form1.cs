@@ -9,18 +9,17 @@ namespace DesktopClock_V2
 {
     public partial class Form1 : Form
     {
-
 #if DEBUG
-        private readonly bool isDebug = true;
+        private readonly bool _isDebug = true;
 #else
-        private readonly bool isDebug = false;
+        private readonly bool _isDebug = false;
 #endif
 
         bool ikamode = false;
 
-        private readonly string posFP;
-        private readonly string picFP;
-        string SFPath;
+        private readonly string _posFP;
+        private readonly string _picFP;
+        private string SFPath;
         bool isikamode;
 
         private readonly string _systemLocale = System.Globalization.CultureInfo.CurrentCulture.Name;
@@ -32,13 +31,13 @@ namespace DesktopClock_V2
         {
             InitializeComponent();
 
-            posFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPOS.txt");
-            picFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPIC.txt");
+            _posFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPOS.txt");
+            _picFP = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fPIC.txt");
 
             dev1.Text = _machineName;
-            dev1.Visible = isDebug;
+            dev1.Visible = _isDebug;
 
-            if (isDebug)
+            if (_isDebug)
                 this.Text = this.Text + " -DEBUG";
         }
 
@@ -54,7 +53,7 @@ namespace DesktopClock_V2
                 {
                     chlang = "en";
                 }
-                langChange();
+                changeLang();
                 changeWallpaper();
             }
             LFpos();
@@ -67,9 +66,9 @@ namespace DesktopClock_V2
             {
                 try
                 {
-                    string ikapicpath = "C:\\Users\\ika004\\Pictures\\GEKIKAWANENECHANWALLPAPERFORIKACLOCK.png";
-                    Image iimage = Image.FromFile(ikapicpath);
-                    this.BackgroundImage = iimage;
+                    string ikapicpath = @"C:\Users\ika004\Pictures\GEKIKAWANENECHANWALLPAPERFORIKACLOCK.png";
+                    Image image = Image.FromFile(ikapicpath);
+                    this.BackgroundImage = image;
                 }
                 catch (FileNotFoundException)
                 {
@@ -100,7 +99,7 @@ namespace DesktopClock_V2
             // datetxt.Text = (dt.ToString("") + " (" + dt.ToString("ddd") + ")");
 
         }
-        private void langChange()
+        private void changeLang()
         {
             if (chlang == "ja")
             {
@@ -130,10 +129,11 @@ namespace DesktopClock_V2
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!isDebug) return;
+            if (!_isDebug) return;
 
             var ofd = new OpenFileDialog();
             ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
+
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string FilePath = ofd.FileName;
@@ -155,8 +155,6 @@ namespace DesktopClock_V2
                         Image CropIMG = Crop(SelectedImage);
                         this.BackgroundImage = CropIMG;
                     }
-
-
                 }
                 catch (Exception ex)
                 {
@@ -235,7 +233,7 @@ namespace DesktopClock_V2
                         }
                     }
 
-                    File.WriteAllText(picFP, $"{filePath},{uwagaki}");
+                    File.WriteAllText(_picFP, $"{filePath},{uwagaki}");
 
                 }
                 catch (Exception ex)
@@ -250,7 +248,7 @@ namespace DesktopClock_V2
             if (chlang == "en")
             {
                 chlang = "ja";
-                langChange();
+                changeLang();
             }
         }
 
@@ -259,7 +257,7 @@ namespace DesktopClock_V2
             if (chlang == "ja")
             {
                 chlang = "en";
-                langChange();
+                changeLang();
             }
         }
 
@@ -283,7 +281,7 @@ namespace DesktopClock_V2
                 string x = this.Location.X.ToString();
                 string y = this.Location.Y.ToString();
 
-                File.WriteAllText(posFP, $"{x},{y}");
+                File.WriteAllText(_posFP, $"{x},{y}");
             }
             catch (Exception)
             {
@@ -294,11 +292,11 @@ namespace DesktopClock_V2
 
         private void LFpos()
         {
-            if (File.Exists(posFP))
+            if (File.Exists(_posFP))
             {
                 try
                 {
-                    string[] pos = File.ReadAllText(posFP).Split(",");
+                    string[] pos = File.ReadAllText(_posFP).Split(",");
 
                     if (pos.Length == 2)
                     {
@@ -323,7 +321,7 @@ namespace DesktopClock_V2
         {
             try
             {
-                string[] images = File.ReadAllText(picFP).Split(",");
+                string[] images = File.ReadAllText(_picFP).Split(",");
 
 
                 if (images.Length == 2 && bool.TryParse(images[1], out isikamode))
@@ -355,7 +353,6 @@ namespace DesktopClock_V2
                         }
                     }
                     catch
-
                     { }
                 }
             }
