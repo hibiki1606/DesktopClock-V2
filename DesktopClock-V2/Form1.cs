@@ -7,9 +7,6 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 namespace DesktopClock_V2
 {
-
-
-
     public partial class Form1 : Form
     {
 
@@ -30,6 +27,7 @@ namespace DesktopClock_V2
         string PCN = Environment.MachineName;
 
         string chlang = "ja";
+
         public Form1()
         {
             InitializeComponent();
@@ -39,22 +37,18 @@ namespace DesktopClock_V2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-
             dev1.Text = PCN;
 
             apdatetime();
             if (PCN.Contains("IKA004"))
             {
-               ikamode = true;
+                ikamode = true;
                 toggleIka004modeToolStripMenuItem.Visible = true;
 
-                if (isDebug)
-                {
-                    dev1.Visible = true;
-                    this.Text = this.Text + " -DEBUG";
-                }
+                dev1.Visible = isDebug;
 
+                if (isDebug)
+                    this.Text = this.Text + " -DEBUG";
 
                 if (SysLang != "ja-JP")
                 {
@@ -62,13 +56,11 @@ namespace DesktopClock_V2
                 }
                 LangChange();
                 changewp();
-                
+
             }
             LFpos();
             LFpic();
-
         }
-
 
         private void changewp()
         {
@@ -136,62 +128,50 @@ namespace DesktopClock_V2
             }
         }
 
-
         private void uptime_Tick(object sender, EventArgs e)
         {
             apdatetime();
         }
 
-        private void Strip_Close_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-
-
-
+        private void Strip_Close_Click(object sender, EventArgs e) => this.Close();
 
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            if (isDebug)
+            if (!isDebug) return;
+
+            var ofd = new OpenFileDialog();
+            ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                var ofd = new OpenFileDialog();
-                ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
-                if (ofd.ShowDialog() == DialogResult.OK)
-
+                string FilePath = ofd.FileName;
+                try
                 {
-                    string FilePath = ofd.FileName;
-                    try
+                    Image SelectedImage = Image.FromFile(FilePath);
+                    string filePath = ofd.FileName;
+
+                    float aspe = 9f / 16f;
+                    float imgaspe = (float)SelectedImage.Width / SelectedImage.Height;
+                    if (Math.Abs(imgaspe - aspe) < 0.01f)
                     {
-                        Image SelectedImage = Image.FromFile(FilePath);
-                        string filePath = ofd.FileName;
-
-                        float aspe = 9f / 16f;
-                        float imgaspe = (float)SelectedImage.Width / SelectedImage.Height;
-                        if (Math.Abs(imgaspe - aspe) < 0.01f)
-                        {
-                            this.BackgroundImage = SelectedImage;
-                            this.BackgroundImageLayout = ImageLayout.Zoom;
-                            MessageBox.Show("壁紙を変更しました");
-                        }
-                        else
-                        {
-                            Image CropIMG = Crop(SelectedImage);
-                            this.BackgroundImage = CropIMG;
-                        }
-
-
+                        this.BackgroundImage = SelectedImage;
+                        this.BackgroundImageLayout = ImageLayout.Zoom;
+                        MessageBox.Show("壁紙を変更しました");
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        MessageBox.Show($"画像の読み込み中にエラーが発生しました: {ex.Message}");
+                        Image CropIMG = Crop(SelectedImage);
+                        this.BackgroundImage = CropIMG;
                     }
+
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"画像の読み込み中にエラーが発生しました: {ex.Message}");
                 }
             }
         }
-
 
         public static Image Crop(Image SelectedImage, double targetAspectRatio = 9.0 / 16.0)
         {
@@ -255,16 +235,15 @@ namespace DesktopClock_V2
 
                     if (ikamode == true)
                     {
-                        DialogResult result = MessageBox.Show("現在、ika004 モードで起動しています。起動時にこの画像を読み込みますか？","確認",MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation);
+                        DialogResult result = MessageBox.Show("現在、ika004 モードで起動しています。起動時にこの画像を読み込みますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
 
                         if (result == DialogResult.No)
                         {
                             uwagaki = true;
                         }
                     }
-                    
-                    File.WriteAllText(picFP, $"{filePath},{uwagaki}");
 
+                    File.WriteAllText(picFP, $"{filePath},{uwagaki}");
 
                 }
                 catch (Exception ex)
@@ -294,20 +273,11 @@ namespace DesktopClock_V2
 
         private void toggleIka004modeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (toggleIka004modeToolStripMenuItem.Checked == true)
-            {
-                ikamode = false;
-            }
-            else
-            {
-                ikamode = true;
-            }
+            toggleIka004modeToolStripMenuItem.Checked = !ikamode;
+
             changewp();
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -401,7 +371,6 @@ namespace DesktopClock_V2
             {
 
             }
-            
         }
     }
 }
