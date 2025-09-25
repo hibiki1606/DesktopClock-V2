@@ -336,9 +336,9 @@ namespace DesktopClock_V2
                     {
                         Image image = Image.FromFile(SFPath);
 
-                        float targetAspect = 9f / 16f;
-                        float originalRatio = (float)image.Width / image.Height;
-                        if (Math.Abs(originalRatio - targetAspect) < 0.01f)
+                        float targetAspectRatio = 9f / 16f;
+                        float originalAspectRatio = (float)image.Width / image.Height;
+                        if (Math.Abs(originalAspectRatio - targetAspectRatio) < 0.01f)
                         {
                             this.BackgroundImage = image;
                             this.BackgroundImageLayout = ImageLayout.Zoom;
