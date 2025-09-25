@@ -163,30 +163,29 @@ namespace DesktopClock_V2
             }
         }
 
-        public static Image Crop(Image SelectedImage, double targetAspectRatio = 9.0 / 16.0)
+        public static Image Crop(Image selectedImage, float targetAspectRatio = 9.0f / 16.0f)
         {
             Rectangle ClopArea;
-            float imgaspe = (float)SelectedImage.Width / SelectedImage.Height;
-            double targetAspe = 9.0 / 16.0;
-            if (imgaspe > targetAspe)
+            float originalAspectRatio = selectedImage.Width / selectedImage.Height;
+            if (originalAspectRatio > targetAspectRatio)
             {
-                int NewW = (int)(SelectedImage.Height * targetAspe);
-                int XOffset = (SelectedImage.Width - NewW) / 2;
-                ClopArea = new Rectangle(XOffset, 0, NewW, SelectedImage.Height);
+                int NewW = (int)(selectedImage.Height * targetAspectRatio);
+                int XOffset = (selectedImage.Width - NewW) / 2;
+                ClopArea = new Rectangle(XOffset, 0, NewW, selectedImage.Height);
             }
             else
             {
-                int newH = (int)(SelectedImage.Width / targetAspe);
-                int YOffset = (SelectedImage.Height - newH) / 2;
-                ClopArea = new Rectangle(0, YOffset, SelectedImage.Width, newH);
+                int newH = (int)(selectedImage.Width / targetAspectRatio);
+                int YOffset = (selectedImage.Height - newH) / 2;
+                ClopArea = new Rectangle(0, YOffset, selectedImage.Width, newH);
             }
 
-            Bitmap CroppedIMG = new Bitmap(ClopArea.Width, ClopArea.Height);
-            using (Graphics g = Graphics.FromImage(CroppedIMG))
+            Bitmap croppedImage = new Bitmap(ClopArea.Width, ClopArea.Height);
+            using (Graphics g = Graphics.FromImage(croppedImage))
             {
-                g.DrawImage(SelectedImage, new Rectangle(0, 0, CroppedIMG.Width, CroppedIMG.Height), ClopArea, GraphicsUnit.Pixel);
+                g.DrawImage(selectedImage, new Rectangle(0, 0, croppedImage.Width, croppedImage.Height), ClopArea, GraphicsUnit.Pixel);
             }
-            return CroppedIMG;
+            return croppedImage;
         }
 
         private void ChangeWP_crop_Click(object sender, EventArgs e)
@@ -242,6 +241,7 @@ namespace DesktopClock_V2
                 }
             }
         }
+
 
         private void ChangeJ_Click(object sender, EventArgs e)
         {
@@ -334,21 +334,20 @@ namespace DesktopClock_V2
                 {
                     try
                     {
-                        Image SelectedImage = Image.FromFile(SFPath);
-                        string filePath = SFPath;
+                        Image image = Image.FromFile(SFPath);
 
-                        float aspe = 9f / 16f;
-                        float imgaspe = (float)SelectedImage.Width / SelectedImage.Height;
-                        if (Math.Abs(imgaspe - aspe) < 0.01f)
+                        float targetAspect = 9f / 16f;
+                        float originalRatio = (float)image.Width / image.Height;
+                        if (Math.Abs(originalRatio - targetAspect) < 0.01f)
                         {
-                            this.BackgroundImage = SelectedImage;
+                            this.BackgroundImage = image;
                             this.BackgroundImageLayout = ImageLayout.Zoom;
                             //    MessageBox.Show("壁紙を変更しました");
                         }
                         else
                         {
-                            Image CropIMG = Crop(SelectedImage);
-                            this.BackgroundImage = CropIMG;
+                            Image croppedImage = Crop(image);
+                            this.BackgroundImage = croppedImage;
                             //  MessageBox.Show("壁紙をクロップして変更しました");
                         }
                     }
