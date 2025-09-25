@@ -131,7 +131,7 @@ namespace DesktopClock_V2
         {
             if (!_isDebug) return;
 
-            var ofd = new OpenFileDialog();
+            /* var ofd = new OpenFileDialog();
             ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
 
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -160,7 +160,7 @@ namespace DesktopClock_V2
                 {
                     MessageBox.Show($"âÊëúÇÃì«Ç›çûÇ›íÜÇ…ÉGÉâÅ[Ç™î≠ê∂ÇµÇ‹ÇµÇΩ: {ex.Message}");
                 }
-            }
+            } */
         }
 
         public static Image Crop(Image selectedImage, float targetAspectRatio = 9.0f / 16.0f)
